@@ -116,7 +116,7 @@ public class SpinToWin : MonoBehaviour
                 break;
             case 1: // limited jumps
                 jumpsLeft.enabled = true;
-                pm.maxJumps = 100;      
+                pm.maxJumps = 75;      
                 listOfRulesTemp += "\n- Limited Jumps"; 
                 break;
             case 2: // moon gravity

@@ -12,6 +12,7 @@ public class RedLightGreenLight : MonoBehaviour
     PlayerMove pm;
     SpinToWin stw;
     float timeLeft;
+    bool green = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,27 +24,35 @@ public class RedLightGreenLight : MonoBehaviour
     }
     public void redGreenLight()
     {
-        // image.color = greenColor;
-        // greenTime = Random.Range(15, 28);
-        // print("start");
-        // while(timeLeft < greenTime)
-        // {
-        //     timeLeft += Time.deltaTime;
-        // }
-        // timeLeft = 0;
-        // print("done");
-        // image.color = redColor;
-        // while(timeLeft < redTime)
-        // {
-        //     if(Mathf.Abs(pm.rb.linearVelocityX) > 0.1f && timeLeft > 0.75f)
-        //     {
-        //         StartCoroutine(stw.spinOverTime("You Didn't Stop For the Red Light"));
-        //         return;
-        //     }
-        //     timeLeft += Time.deltaTime;
-        // }
+        image.color = greenColor;
+        greenTime = Random.Range(1, 2);
+        timeLeft += Time.deltaTime;
+        print(timeLeft);
+        if(timeLeft<greenTime && green)
+        {
+          image.color = greenColor;  
+          print("ts");
+        } else if(timeLeft > greenTime && green)
+        {
+            green = false;   
+            timeLeft = 0;
+        } else if(timeLeft < redTime && !green)
+        {
+            print("fiuh");
+            image.color = redColor;
+            if(Mathf.Abs(pm.rb.linearVelocityX) > 0.1f && timeLeft > 0.75f)
+            {
+                StartCoroutine(stw.spinOverTime("You Didn't Stop For the Red Light"));
+                redGreenLight();
+                return;
+            }            
+        } else
+        {
+            print("tt");
+            green = true;
+        }
         
-        // redGreenLight();
+        
 
     }
 }
