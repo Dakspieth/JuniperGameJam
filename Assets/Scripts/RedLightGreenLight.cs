@@ -11,34 +11,39 @@ public class RedLightGreenLight : MonoBehaviour
     Image image;
     PlayerMove pm;
     SpinToWin stw;
+    float timeLeft;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         image = GetComponent<Image>();
         pm = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
         stw = GameObject.FindWithTag("Spinner").GetComponent<SpinToWin>();
-        StartCoroutine(redGreenLight());
+    
+        redGreenLight();
     }
-
-    // Update is called once per frame
-    void Update()
+    public void redGreenLight()
     {
+        // image.color = greenColor;
+        // greenTime = Random.Range(15, 28);
+        // print("start");
+        // while(timeLeft < greenTime)
+        // {
+        //     timeLeft += Time.deltaTime;
+        // }
+        // timeLeft = 0;
+        // print("done");
+        // image.color = redColor;
+        // while(timeLeft < redTime)
+        // {
+        //     if(Mathf.Abs(pm.rb.linearVelocityX) > 0.1f && timeLeft > 0.75f)
+        //     {
+        //         StartCoroutine(stw.spinOverTime("You Didn't Stop For the Red Light"));
+        //         return;
+        //     }
+        //     timeLeft += Time.deltaTime;
+        // }
         
-    }
-    IEnumerator redGreenLight()
-    {
-        image.color = greenColor;
-        greenTime = Random.Range(1, 2);
-        yield return new WaitForSeconds(greenTime);
-        image.color = redColor;
-        yield return new WaitForSeconds(0.75f);
-        if(Mathf.Abs(pm.rb.linearVelocityX) > 0.1f)
-        {
-            print(pm.rb.linearVelocityX);
-            stw.spinOverTime("You Didn't Stop For the Red Light");
-        }
-        yield return new WaitForSeconds(redTime-0.75f);
-        StartCoroutine(redGreenLight());
+        // redGreenLight();
 
     }
 }

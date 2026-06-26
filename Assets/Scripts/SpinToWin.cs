@@ -5,7 +5,8 @@ using TMPro;
 using System.Linq;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
-
+using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.UI;
 public class SpinToWin : MonoBehaviour
 {
     public string[] baseRules = new string[] {};
@@ -32,6 +33,7 @@ public class SpinToWin : MonoBehaviour
     GameObject loseIMG;
     TMP_Text loseText;
     public GameObject redLightGreenLight;
+    bool RLGL;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,6 +66,15 @@ public class SpinToWin : MonoBehaviour
             timeLeft -= Time.deltaTime;
             timerText.text = "Time Left: " + timeLeft.ToString("00.00") + "s";
             listOfRulesText.text = listOfRulesTemp;
+            if(!redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled && RLGL)
+            {
+                redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled = true;
+                redLightGreenLight.GetComponent<RedLightGreenLight>().enabled = true;
+            } else
+            {
+                redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled = true;
+                redLightGreenLight.GetComponent<RedLightGreenLight>().enabled = true;
+            }
             if(timeLeft < 0)
             {
                 playing = false;
@@ -116,8 +127,9 @@ public class SpinToWin : MonoBehaviour
                 pm.noRunningInHall = true;
                 listOfRulesTemp += "\n- No Running In The Hall";
                 break;
-            case 4:
-                redLightGreenLight.SetActive(true);
+            case 4: // red light green light
+                RLGL = true;
+                listOfRulesTemp += "\n- Red Light Green Light";
                 break;
             case 5: // you can run now
                 pm.sprintControl.AddBinding("<Keyboard>/shift");
@@ -169,7 +181,7 @@ public class SpinToWin : MonoBehaviour
         listOfRulesText.text = "";
         pm.seriousSamPaper.SetActive(true);
         pm.seriousSamPaperCollected = false;
-
+        redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled = false;
         loseText.text = "You Lost Because: " + loseReason;
         float duration = 1f;
         float timeElapsed = 0f;
@@ -274,7 +286,7 @@ public class SpinToWin : MonoBehaviour
             if(baseRules[i] == rulePool[ruleSelected])
             {
                 ruleActivated[i] = true;
-                SetNewRules(4);
+                SetNewRules(i);
             }
         }
         newPool();
