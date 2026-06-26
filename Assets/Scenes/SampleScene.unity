@@ -28438,6 +28438,30 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Move Control
       m_Flags: 8
+    - m_Name: 1D Axis
+      m_Id: 73c0ddaa-50a3-4e63-808b-f76c24182c60
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Control
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: 76b2a122-8aa6-40d8-a5f4-fc4807816d82
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Control
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 2eef9397-9ce6-4d29-94c9-c112a2fae141
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Control
+      m_Flags: 8
     m_Flags: 0
   jumpForce: 20
   jumpTime: 0.15
@@ -33727,7 +33751,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Rules:
 
-    -Give The Paper On Serious Sam''s Desk To THE BOSS'
+    -Give The Paper On Serious Sam''s Desk To THE BOSS On Time'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aada65dcce46c024a952105ff79e56a7, type: 2}
   m_sharedMaterial: {fileID: -3677763393642888028, guid: aada65dcce46c024a952105ff79e56a7, type: 2}
