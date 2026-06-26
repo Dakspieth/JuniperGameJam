@@ -19,40 +19,36 @@ public class RedLightGreenLight : MonoBehaviour
         image = GetComponent<Image>();
         pm = GameObject.FindWithTag("Player").GetComponent<PlayerMove>();
         stw = GameObject.FindWithTag("Spinner").GetComponent<SpinToWin>();
+        restart();
     
-        redGreenLight();
     }
-    public void redGreenLight()
+    void Update()
     {
-        image.color = greenColor;
-        greenTime = Random.Range(1, 2);
         timeLeft += Time.deltaTime;
-        print(timeLeft);
         if(timeLeft<greenTime && green)
         {
           image.color = greenColor;  
-          print("ts");
         } else if(timeLeft > greenTime && green)
         {
             green = false;   
             timeLeft = 0;
         } else if(timeLeft < redTime && !green)
         {
-            print("fiuh");
             image.color = redColor;
             if(Mathf.Abs(pm.rb.linearVelocityX) > 0.1f && timeLeft > 0.75f)
             {
                 StartCoroutine(stw.spinOverTime("You Didn't Stop For the Red Light"));
-                redGreenLight();
-                return;
             }            
         } else
         {
-            print("tt");
-            green = true;
-        }
-        
-        
-
+            restart();
+        }    
+    }
+    public void restart()
+    {
+        green = true;
+        image.color = greenColor;
+        greenTime = Random.Range(20, 30);
+        timeLeft = 0;
     }
 }

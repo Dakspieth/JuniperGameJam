@@ -70,19 +70,29 @@ public class SpinToWin : MonoBehaviour
             {
                 redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled = true;
                 redLightGreenLight.GetComponent<RedLightGreenLight>().enabled = true;
-            } else
+            } else if (redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled && !RLGL)
             {
-                redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled = true;
-                redLightGreenLight.GetComponent<RedLightGreenLight>().enabled = true;
+                redLightGreenLight.GetComponent<UnityEngine.UI.Image>().enabled = false;
+                redLightGreenLight.GetComponent<RedLightGreenLight>().enabled = false;
             }
-            if(timeLeft < 0)
+            if(timeLeft < 0 && rulePool.Count > 1)
             {
                 playing = false;
                 StartCoroutine(spinOverTime("You Ran Out of Time"));
+            } else if(timeLeft < 0)
+            {
+                WinLoseScreen(1); // lose (too many spins)
             }
             if(jumpsLeft.enabled)
             {
                 jumpsLeft.text = "Jumps Left: " + (pm.maxJumps - pm.jumps).ToString();
+            }
+            if(baseTimeLeft-timeLeft < 30f)
+            {
+                pm.sugarHighMult = 1.2f;
+            } else
+            {
+                pm.sugarHighMult = 0.9f;
             }
         }
         
@@ -91,8 +101,8 @@ public class SpinToWin : MonoBehaviour
 
     void newPool()
     {
-        rulePool = new List<string>(ruleList);
-        descPool = new List<string>(ruleDescList);
+        rulePool = ruleList;
+        descPool = ruleDescList;
         for(int i = 0; i < Mathf.Max(ruleList.Count-8, 0); i++)
         {
             int choice = Random.Range(0, rulePool.Count-1);
@@ -112,7 +122,7 @@ public class SpinToWin : MonoBehaviour
             case 0: // levatate
                 pm.jetpack = true; 
                 pm.jumpForce = 8f;
-                listOfRulesTemp += "\n- Levatate";
+                listOfRulesTemp += "\n- Levatate (Hold Jump)";
                 break;
             case 1: // limited jumps
                 jumpsLeft.enabled = true;
@@ -133,15 +143,20 @@ public class SpinToWin : MonoBehaviour
                 break;
             case 5: // you can run now
                 pm.sprintControl.AddBinding("<Keyboard>/shift");
-                listOfRulesTemp += "\n- You Can Run Now";
+                listOfRulesTemp += "\n- You Can Run Now (Hold Shift to Run)";
                 break;
-            case 6:
+            case 6: // sugar high
+                pm.sugarHigh = true;
+                listOfRulesTemp += "\n- Sugar High (Fast For 30 Seconds, Then Slow)";
                 break;
-            case 7:
+            case 7: // nonchalant
+                pm.moveSpeed *= 0.9f;
+                baseTimeLeft += 15;
+                listOfRulesTemp += "\n- Nonchalant (15 Extra Seconds, Walk Slower)";
                 break;
             case 8: // bad back
-                pm.moveSpeed *= 0.8f;
-                listOfRulesTemp += "\n- Bad Back";
+                pm.moveSpeed *= 0.9f;
+                listOfRulesTemp += "\n- Bad Back (Walk Slower)";
                 break;
             case 9: // jaundice
                 SpriteRenderer sprite = pm.animator.GetComponent<SpriteRenderer>();
@@ -149,7 +164,7 @@ public class SpinToWin : MonoBehaviour
                 listOfRulesTemp += "\n- Contract Jaundice";
                 break;
             case 10: // shrink
-                pm.transform.localScale = new Vector2(pm.transform.localScale.x, pm.transform.localScale.y*0.67f);
+                pm.transform.localScale = new Vector2(pm.transform.localScale.x, pm.transform.localScale.y*0.6f);
                 listOfRulesTemp += "\n- Shrink";
                 break;
             case 11: // forgot contacts
@@ -160,6 +175,8 @@ public class SpinToWin : MonoBehaviour
                 listOfRulesTemp += "\n- Forgot Your Contacts";
                 break;
             case 12:
+                baseTimeLeft -= 15;
+                listOfRulesTemp += "\n- Running Late (Lose 15 Seconds)";
                 break;
             
         }
@@ -296,7 +313,21 @@ public class SpinToWin : MonoBehaviour
     {
         startSpinning = true;
     }
-
+    
+    public void WinLoseScreen(int ending) // 0 win, 1 lose
+    {
+        switch(ending)
+        {
+            case 0:
+                Time.timeScale = 0f;
+                print("win");
+                break;
+            case 1:
+                Time.timeScale = 0f;
+                print("lose");
+                break;
+        }
+    }
 
     
 }

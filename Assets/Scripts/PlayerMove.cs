@@ -37,6 +37,8 @@ public class PlayerMove : MonoBehaviour
     public int jumps = 0;
         [HideInInspector]
         public int maxJumps = int.MaxValue;
+    public float sugarHighMult;
+    public bool sugarHigh;
 
     void Start()
     {
@@ -125,7 +127,7 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("running", false);
         }
         
-        Vector2 moveSpeedDir = new Vector2(moveDir * moveSpeed * (sprintControl.ReadValue<float>() != 0 ? sprintSpeedMult : 1), rb.linearVelocity.y);
+        Vector2 moveSpeedDir = new Vector2(moveDir * moveSpeed * (sprintControl.ReadValue<float>() != 0 ? sprintSpeedMult : 1) * (sugarHigh ? sugarHighMult : 1), rb.linearVelocity.y);
         animator.speed = sprintControl.ReadValue<float>() != 0 ? 1.5f : 1f;
         rb.linearVelocity = moveSpeedDir;
     }
@@ -141,9 +143,9 @@ public class PlayerMove : MonoBehaviour
             seriousSamPaperCollected = true;
             seriousSamPaper.SetActive(false);
         }
-        if(col.tag == "Boss" && seriousSamPaperCollected)
+        if(col.tag == "Boss" && seriousSamPaperCollected) // win
         {
-            print("win");
+            stw.WinLoseScreen(0);
         }
 
     }
