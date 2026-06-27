@@ -36492,6 +36492,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   PauseMenu: {fileID: 1618324604}
+  pauseControl:
+    m_Name: Pause Control
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 757e4be3-729b-4230-bc7e-52d8afa6fe76
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: adaff226-7671-4974-b48a-f2161ae3f308
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pause Control
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &2052447718
 GameObject:
   m_ObjectHideFlags: 0
