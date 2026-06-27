@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 public class SpinToWin : MonoBehaviour
 {
     public string[] baseRules = new string[] {};
@@ -14,6 +16,9 @@ public class SpinToWin : MonoBehaviour
     List<string> ruleList = new List<string>();
     List<string> ruleDescList = new List<string>();
     public bool[] ruleActivated = new bool[] {}; // does nothing, basically just debug
+    public Transform win;
+    public Transform lose;
+    public TextMeshProUGUI end;
     List<string> rulePool;
     List<string> descPool;
 
@@ -319,14 +324,23 @@ public class SpinToWin : MonoBehaviour
         switch(ending)
         {
             case 0:
-                Time.timeScale = 0f;
-                print("win");
+                win.GetComponent<UnityEngine.UI.Image>().enabled = true;
+                end.text = "Wow! Just in the nick of time, these are seriously important!";
+                StartCoroutine(ToMenu());
                 break;
             case 1:
-                Time.timeScale = 0f;
-                print("lose");
+                lose.GetComponent<UnityEngine.UI.Image>().enabled = true;
+                end.text = "This is the last time you can be late, you've been late 12 times in a row, you're fired!!!";
+                StartCoroutine(ToMenu());
                 break;
         }
+
+    }
+
+    IEnumerator ToMenu()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene(0);
     }
 
     
